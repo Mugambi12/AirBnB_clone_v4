@@ -1,17 +1,13 @@
 #!/usr/bin/python3
 '''
-Define the class Place.
+    Define the class Place.
 '''
 from os import getenv
 from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 from sqlalchemy.orm import relationship
-import models
 from models.base_model import BaseModel, Base
-from review import Review
-from amenity import Amenity
-
-
 # from models.amenity import Amenity
+
 
 place_amenity = Table('place_amenity', Base.metadata,
                       Column('place_id', String(60), ForeignKey("places.id"),
@@ -20,12 +16,11 @@ place_amenity = Table('place_amenity', Base.metadata,
                              ForeignKey("amenities.id"),
                              primary_key=True, nullable=False))
 
+
 class Place(BaseModel, Base):
-
     '''
-    Define the class Place that inherits from BaseModel.
+        Define the class Place that inherits from BaseModel.
     '''
-
     __tablename__ = "places"
     if getenv("HBNB_TYPE_STORAGE", "fs") == "db":
         city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
@@ -59,8 +54,8 @@ class Place(BaseModel, Base):
         @property
         def reviews(self):
             '''
-            Return list: review instances if Review.place_id==curr place.id
-            FileStorage relationship between Place and Review
+                Return list: review instances if Review.place_id==curr place.id
+                FileStorage relationship between Place and Review
             '''
             list_reviews = []
             for review in models.storage.all(Review).values():
@@ -71,8 +66,8 @@ class Place(BaseModel, Base):
         @property
         def amenities(self):
             '''
-            Return list: amenity inst's if Amenity.place_id=curr place.id
-            FileStorage many to many relationship between Place and Amenity
+                Return list: amenity inst's if Amenity.place_id=curr place.id
+                FileStorage many to many relationship between Place and Amenity
             '''
             list_amenities = []
             for amenity in models.storage.all(Amenity).values():
@@ -83,8 +78,8 @@ class Place(BaseModel, Base):
         @amenities.setter
         def amenities(self, amenity=None):
             '''
-            Set list: amenity instances if Amenity.place_id==curr place.id
-            Set by adding instance objs to amenity_ids attribute in Place
+                Set list: amenity instances if Amenity.place_id==curr place.id
+                Set by adding instance objs to amenity_ids attribute in Place
             '''
             if amenity:
                 for amenity in models.storage.all(Amenity).values():
