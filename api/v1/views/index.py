@@ -14,19 +14,20 @@ from api.v1.views import app_views
 
 # Task 3
 @app_views.route("/status", methods=['GET'])
-def status():
+def api_status():
     '''
     Return JSON of OK status
     '''
-    return jsonify({'status': 'OK'})
+    response = {'status': 'OK'}
+    return jsonify(response)
 
 # Task 4
 @app_views.route("/stats", methods=['GET'])
-def storage_counts():
+def get_status():
     '''
     Return counts of all classes in storage
     '''
-    cls_counts = {
+    stats = {
         "amenities": storage.count("Amenity"),
         "cities": storage.count("City"),
         "places": storage.count("Place"),
@@ -34,4 +35,4 @@ def storage_counts():
         "states": storage.count("State"),
         "users": storage.count("User")
     }
-    return jsonify(cls_counts)
+    return jsonify(stats)
