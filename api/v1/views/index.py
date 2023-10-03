@@ -1,33 +1,29 @@
 #!/usr/bin/python3
-
 '''
-Flask with general routes
-
-Routes:
-    - /status: Display {"status": "OK"}
-    - /stats: Display total for all classes
+    flask with general routes
+    routes:
+        /status:    display "status":"OK"
+        /stats:     dispaly total for all classes
 '''
-
+from api.v1.views import app_views
 from flask import jsonify
 from models import storage
-from api.v1.views import app_views
 
-# Task 3
-@app_views.route("/status", methods=['GET'])
-def api_status():
-    '''
-    Return JSON of OK status
-    '''
-    response = {'status': 'OK'}
-    return jsonify(response)
 
-# Task 4
-@app_views.route("/stats", methods=['GET'])
-def get_status():
+@app_views.route("/status")
+def status():
     '''
-    Return counts of all classes in storage
+        return JSON of OK status
     '''
-    stats = {
+    return jsonify({'status': 'OK'})
+
+
+@app_views.route("/stats")
+def storage_counts():
+    '''
+        return counts of all classes in storage
+    '''
+    cls_counts = {
         "amenities": storage.count("Amenity"),
         "cities": storage.count("City"),
         "places": storage.count("Place"),
@@ -35,4 +31,4 @@ def get_status():
         "states": storage.count("State"),
         "users": storage.count("User")
     }
-    return jsonify(stats)
+    return jsonify(cls_counts)
